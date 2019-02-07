@@ -1,0 +1,9 @@
+BeautifulSoup4
+requests
+numpy
+markovify
+flask
+boto3
+botocore
+pytest
+zappa

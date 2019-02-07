@@ -1,0 +1,20 @@
+{
+    "dev": {
+        "app_function": "main.app",
+        "aws_region": "us-east-1",
+        "profile_name": "default",
+        "project_name": "rap-stats",
+        "runtime": "python3.6",
+        "s3_bucket": "rap-stats-api",
+        "environment_variables": {
+        	"DATA-BUCKET": "rap-stats-data",
+        	"SERVERTYPE": "AWS Lambda"
+        },
+        "async_resources": "true",
+        "async_response_table": "rap-stats-async-response-table",
+        "timeout_seconds": 300,
+        "certificate_arn": "arn:aws:acm:us-east-1:513448149218:certificate/e8a3691f-b297-4fcf-a7a2-19e657bf501c",
+        "domain": "rap-stats.com"
+    }
+}
+
