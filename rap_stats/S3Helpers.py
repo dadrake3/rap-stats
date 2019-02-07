@@ -32,15 +32,9 @@ bucket = _resource.Bucket(BUCKET_NAME)
 ## public funcions 
 get_json = lambda f: json.load(bucket.Object(key=f).get()["Body"])
 put_json = lambda obj, f: bucket.Object(key=f).put(Body=json.dumps(obj))
-del_obj = lambda f: __client.delete_object(Bucket=BUCKET_NAME, Key=f)
+del_obj = lambda f: _client.delete_object(Bucket=_bucket_name, Key=f)
 client_error = botocore.exceptions.ClientError
 
-
-
-
-
-
-# static methods
 
 def exp_backoff_with_jitter(exception=Exception, max_sleep=60, base=0.001, max_retries=100):
     def arg_decorator(func):

@@ -23,8 +23,8 @@ def zappa_get_async_response(code):
 # 
 def zappa_async(func):
 	print('fuck')
-	@wraps(func)
 	@task(capture_response=True)
+	@wraps(func)
 	def func_wrap_async(*args, **kwargs):
 		return func(*args, **kwargs).response_id
 
