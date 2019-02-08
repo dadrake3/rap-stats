@@ -3,6 +3,8 @@ import boto3
 import botocore
 import json
 from os import environ
+from functools import partial, wraps
+
 
 
 
@@ -13,20 +15,20 @@ _resource = None
 _client = None
 
 if 'SERVERTYPE' in environ and environ['SERVERTYPE'] == 'AWS Lambda':
-	_resource = boto3.resource('s3')
+    _resource = boto3.resource('s3')
     _client = boto3.client('s3')
-	_bucket_name = environ.get('DATA-BUCKET')
+    _bucket_name = environ.get('DATA-BUCKET')
 
 else:
     from . import Config
-	_resource = boto3.resource('s3',
+    _resource = boto3.resource('s3',
 		aws_access_key_id=Config.AWSAccessKeyId,
 		aws_secret_access_key=Config.AWSSecretKey
 		)
-	_bucket_name = 'rap-stats-data'
+    _bucket_name = 'rap-stats-data'
 
 
-bucket = _resource.Bucket(BUCKET_NAME)
+bucket = _resource.Bucket(_bucket_name)
 
 
 ## public funcions 
@@ -73,7 +75,7 @@ def get_matching_s3_keys(bucket, prefix='', suffix=''):
     :param prefix: Only fetch keys that start with this prefix (optional).
     :param suffix: Only fetch keys that end with this suffix (optional).
     """
-    kwargs = {'Bucket': BUCKET_NAME}
+    kwargs = {'Bucket': _bucket_name}
 
     # If the prefix is a single string (not a tuple of strings), we can
     # do the filtering directly in the S3 API.

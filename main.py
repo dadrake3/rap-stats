@@ -98,12 +98,12 @@ def build_artist(artist_id=20503, num_songs=50):
 	song_generator = genius_client.song_url_path_generator(artist_id) 
 	songs = itertools.islice(song_generator, num_songs)
 
-	songs = [i for i in range(8)]
-	# map_func = build_song_model_s3
-	# reduce_func = merge_song_models_s3
+	# songs = [i for i in range(8)]
+	map_func = build_song_model_s3
+	reduce_func = merge_song_models_s3
 	
-	map_func = lambda a : a + 1
-	reduce_func = lambda a, b : a * b
+	# map_func = lambda a : a + 1
+	# reduce_func = lambda a, b : a * b
 
 	print('starting')
 	builder = MR.MapReduce(map_func, reduce_func)

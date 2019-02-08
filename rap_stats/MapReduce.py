@@ -8,7 +8,7 @@ from functools import partial, wraps
 from collections import defaultdict
 import random as rand
 
-import .S3Helpers as s3
+from . import S3Helpers as s3
 
 
 
@@ -32,8 +32,10 @@ def zappa_async(func):
 
 def zappa_get_args_from_response_code(func):
 	@wraps(func)
-	def func_wrap(*response_codes, **kwargs):
-		args = [zappa_get_async_response(code) for code in response_codes]
+	def func_wrap(arg_ids, **kwargs):
+		print(respi)
+		args = [zappa_get_async_response(arg) for arg in arg_ids]
+		print(args, arg_ids)
 		return func(*args, **kwargs).response_id
 
 	return func_wrap
@@ -62,7 +64,7 @@ class MapReduce:
 	def __init__(self, map_func, reduce_func, reduce_mode='pair'):
 		self.response_codes = []
 
-		self.__map_func = lambda: None# lambda args: list(map(zappa_async(map_func), args))
+		self.__map_func = lambda args: list(map(zappa_async(map_func), args))
 		# self.__map_func = lambda args: list(map(map_func, args))
 
 		# @zappa_async	

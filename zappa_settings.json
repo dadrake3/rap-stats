@@ -14,7 +14,10 @@
         "async_response_table": "rap-stats-async-response-table",
         "timeout_seconds": 300,
         "certificate_arn": "arn:aws:acm:us-east-1:513448149218:certificate/e8a3691f-b297-4fcf-a7a2-19e657bf501c",
-        "domain": "rap-stats.com"
+        "domain": "rap-stats.com",
+        "manage_roles": false, // Disable Zappa client managing roles.
+        "role_name": "rap-stats-dev-ZappaLambdaExecutionRole", // Name of your Zappa execution role. Optional, default: <project_name>-<env>-ZappaExecutionRole.
+        "role_arn": "arn:aws:iam::513448149218:role/rap-stats-dev-ZappaLambdaExecutionRole"
     }
 }
 
