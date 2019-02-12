@@ -22,13 +22,15 @@ from rap_stats import Markov
 from rap_stats import Responses as res
 from rap_stats import MapReduce as MR
 
+from rap_stats import app
+
 
 class Status:
 	unavailable = 0
 	pending = 1
 	available = 2
 
-app = Flask(__name__)
+# app = Flask(__name__)
 genius_client = Genius.GeniusClient()
 res_factory = res.ResponseFactory()
 
@@ -76,8 +78,16 @@ def build_song_model_s3(song):
 
 	return song_hash
 
+def map_test(i):
+	# time.sleep(5)
+	return i + 1
+
+def reduce_test(a, b):
+	return a * b
+
 
 def merge_song_models_s3(song_hash1, song_hash2):
+	print('merge', song_hash1, song_hash2)
 
 	model1_json = S3.get_json(f'temp/{song_hash1}.json')
 	model2_json = S3.get_json(f'temp/{song_hash2}.json')
@@ -94,26 +104,29 @@ def merge_song_models_s3(song_hash1, song_hash2):
 
 	        	
 @task
-def build_artist(artist_id=20503, num_songs=50):
+def build_artist(artist_id=20503, num_songs=16):
 	song_generator = genius_client.song_url_path_generator(artist_id) 
 	songs = itertools.islice(song_generator, num_songs)
 
-	# songs = [i for i in range(8)]
+	
 	map_func = build_song_model_s3
 	reduce_func = merge_song_models_s3
 	
-	# map_func = lambda a : a + 1
-	# reduce_func = lambda a, b : a * b
+	# songs = [i for i in range(8)]
+	# map_func = map_test
+	# reduce_func = reduce_test
 
 	print('starting')
-	builder = MR.MapReduce(map_func, reduce_func)
-	model = builder(songs)[0]
-	# model = builder(songs)
+	build_model = MR.MapReduce(map_func, reduce_func)
+	model_id = build_model(songs)
+	model_json = S3.get_json(f'temp/{model_id}.json')
 
+	# model = builder(songs)
 	# print(model)
 
-	S3.put_json(model, f'markov/{artist_id}.json')
-	
+	S3.put_json(model_json, f'markov/{artist_id}.json')
+	S3.delete_object(f'temp/{model_id}.json')
+
 	update_artist_dict_s3(artist_id, Status.available)
 
 

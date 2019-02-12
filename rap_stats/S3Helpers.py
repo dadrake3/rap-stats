@@ -34,11 +34,11 @@ bucket = _resource.Bucket(_bucket_name)
 ## public funcions 
 get_json = lambda f: json.load(bucket.Object(key=f).get()["Body"])
 put_json = lambda obj, f: bucket.Object(key=f).put(Body=json.dumps(obj))
-del_obj = lambda f: _client.delete_object(Bucket=_bucket_name, Key=f)
+delete_object = lambda f: _client.delete_object(Bucket=_bucket_name, Key=f)
 client_error = botocore.exceptions.ClientError
 
 
-def exp_backoff_with_jitter(exception=Exception, max_sleep=60, base=0.001, max_retries=100):
+def exp_backoff_with_jitter(exception=Exception, max_sleep=60, base=0.001, max_retries=100, default_response=None):
     def arg_decorator(func):
         @wraps(func)
         def func_wrap(*args, **kwargs):
@@ -52,15 +52,13 @@ def exp_backoff_with_jitter(exception=Exception, max_sleep=60, base=0.001, max_r
 
                 sleep_time = rand.uniform(0, min(max_sleep, base * 2 ** attempt))
             print('returning none')
-            return None
+            return default_response
         return func_wrap
     return arg_decorator
 
 
-
-
-
-
+# make an s3 wrapper that takes the arguments, a format string, 
+# builds a key, and gets the objects from s3 for the wrapped function
 
 
 
