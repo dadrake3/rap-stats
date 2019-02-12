@@ -1,7 +1,15 @@
-language: python 
-python: '3.6' 
-script: echo "all tests passing" 
-after_success: 
-  - pip install -r requirements.txt 
-  - zappa update dev
+language: python
+python: '3.6'
+script: echo "all tests passing"
+
+env:
+  global:
+  - secure: HIxgiRapRREdqtuzUA6hmRFICMrUOh32cvGA//AVjBEFo7AkDi4XSXDbDWLOZYG+6eV7IHuNp1CW5NQCKkspp82K97YqkTpkR0kO5ajN2xndNOzT7ny+DeglQueF1PkUSXEDT8CFisOSq1qvo8CMPV4ddpLCUVO/Oni4TpdBlQlHxXdHUg4puOotE81VrCQKWxsxRBF7oNLnUGRhfQ/3w6jSIZ+/ydkBfTNOH/7iKV9QS1phJ+YnuMeYFVZbg5rQZpQUkOcDXNBoqQVgUkpsv24UlH1Vl+RQA78lteJJhBEc2HMvC8IIlEVsyFardzwyUgJn27ga+l1EUzu1rCryKzm5P1KOAwDtcCBXvaPXnH/RRZy/e7aIxAcq2rcbcbMiaLmPNF84cf1nRy6PWQDaqSolWp+LPvxqxH6Rdu8VhKj6mpNwUaNxJ8Ewd/Ei1a1vpAq5NnEXS+NCU4iOZZ9bwD19Ifh3GneYhxr13FCifDGvhFVulXhTSwuFcoIKUG7+/eTq9D5R3Z0/9lmzPwjG0/4lZP1fWJvz67mq7KHTz0y7slxh/VgGFH5ZslIQcclgGMsQGX8f+AL98shoV1ohT1V3uEzlkiA1T/pFQ5vpPSa0CZcwNdEMgb+oOT2H2n4kqsCPAG339yaWQNSEyTX8uwktHJcEjzIGy9vjvHSrZwo=
+  - secure: oiGtpVHeEjcIDsK2vd/Ufj3gMvHzVcXW69tT1EPod+MgXgo6yEhgN5mxwti2p1Et+90ZkaaRhDclCZ1XvuZwpEK9mwf0mM6crmXPSBI8MYpDvv28hnoBRlT/4YEtyQf4YxwpARfmXUoEvIpaDiPeaCtV4iJ0oS7QPc5HRO7AQEl3GvaYSbIoQFf3C1T3dn0NDIrnf5LRwjZM+e//1bAwx816chQmxci3cmZv3jnEG/f7101HKeDm14yU4Vsg/ccpwxnfvTR9AaaB3zHDuKx0Fo0N873dS7R3phAEhyxj8hLrFdW+QTzzA8WxnKW+0G2iRIquIEMqfIdW+AqPxxDFKlZdwXNT5XL6MU7rKBB9SL2RQJSmK/n83CYkmgD3EMDF5cjMsWVychQEq7y9eIiK0jrFMe9KSKkMlf9j935gzRQRWYKajjIssi+8QTBgR+Y2tyngJS16KTiYBBdoO3K5kAtXfHu2Q6QYv6M/ht9wh8smOzsMhpG3bxpFYrGJDvGs2DMPyIoTz9Fsiq8Kq48rrpm6FoNKeZV/DSLD/UxQ+OnLEoVR+StIh0iDQnge2X6tS2AVj1LyTJ9JXeMq6lvgQTnW56nlhumSVn3wRyXgTUxfiq4KdYHaXl1L+E0mLDEQLsPiveuh+K1roiISJY/tJ73AjN9PvA+c7KpXb3R1a40=
+
+before_install:
+    - ./ecr_credentials.sh
+after_success:
+- pip install -r requirements.txt
+- zappa update dev
 
