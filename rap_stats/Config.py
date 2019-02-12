@@ -1,3 +1,0 @@
-genius_bearer = '3jz_OOtbzge3at7YILYONJ28G70EJ43pR7yL5KE9hqcDFMvegey-lgcRzvWPS23s'
-AWSAccessKeyId = 'AKIAJ3KGHLRVSVBTMYWQ'
-AWSSecretKey = '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'
