@@ -10,7 +10,7 @@ from . import app
 
 
 # uncomment this for exponential jitter for database retries 
-# get_async_response = s3.exp_backoff_with_jitter(exception=s3.client_error)(get_async_response)
+get_async_response = s3.exp_backoff_with_jitter(exception=s3.client_error)(get_async_response)
 
 
 class InvalidResponseID(Exception):
